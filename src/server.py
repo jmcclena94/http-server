@@ -3,6 +3,7 @@ import socket
 
 
 def server():
+    """Run server."""
     server_socket = socket.socket(socket.AF_INET,
                                   socket.SOCK_STREAM,
                                   socket.IPPROTO_TCP)
