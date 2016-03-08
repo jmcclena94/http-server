@@ -6,6 +6,8 @@ def server():
     server_socket = socket.socket(socket.AF_INET,
                                   socket.SOCK_STREAM,
                                   socket.IPPROTO_TCP)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    # server_socket.bind(('127.0.0.1', 5000))
     address = ('127.0.0.1', 5000)
     server_socket.bind(address)
     server_socket.listen(1)
@@ -24,8 +26,8 @@ def server():
     print(return_message)
     conn.sendall(return_message.encode('utf-8'))
     conn.close()
-    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind(address)
+    # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    # server_socket.bind(address)
     server()
 
 server()
