@@ -23,10 +23,24 @@ def server():
             server_socket.close()
         return_message += part.decode('utf-8')
     print(return_message)
-    conn.sendall(return_message.encode('utf-8'))
+    ok_200 = response_ok()
+    # conn.sendall(return_message.encode('utf-8'))
+    conn.sendall(ok_200.encode('utf-8'))
     conn.close()
     server_socket.close()
     server()
+
+
+def response_ok():
+    """Return a 200 OK response."""
+    ok_200 = 'HTTP/1.1 200 OK\r\n\r\n'
+    return ok_200
+
+
+def response_error():
+    """Return a 500 Error response."""
+    no_500 = 'HTTP/1.1 500 Internal Server Error.'
+    return no_500
 
 
 if __name__ == "__main__":
