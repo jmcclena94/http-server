@@ -13,7 +13,7 @@ def server():
     server_socket.listen(1)
     conn, addr = server_socket.accept()
 
-    buffer_length = 4096
+    buffer_length = 8
     message_complete = False
     return_message = ''
     while not message_complete:
@@ -22,6 +22,7 @@ def server():
             message_complete = True
             server_socket.close()
         return_message += part.decode('utf-8')
+    print(return_message)
     conn.sendall(return_message.encode('utf-8'))
     conn.close()
     server_socket.close()
