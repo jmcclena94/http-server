@@ -10,6 +10,7 @@ def client(message):
     client.connect(stream_info[-1])
     if message.encode('utf-8'):
         client.sendall(message.encode('utf-8'))
+        client.shutdown(socket.SHUT_WR)
     else:
         print('Bad message')
         return ''
@@ -23,6 +24,7 @@ def client(message):
             reply_complete = True
         return_message += part.decode('utf-8')
     print(return_message)
+    # client.shutdown(socket.SHUT_RD)
     client.close()
     return return_message
 
