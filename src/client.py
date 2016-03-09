@@ -9,7 +9,6 @@ def client(message):
     client = socket.socket(*stream_info[:3])
     client.connect(stream_info[-1])
     client.sendall(message.encode('utf-8'))
-    # client.shutdown(socket.SHUT_WR)
 
     buffer_length = 4096
     reply_complete = False
@@ -18,7 +17,6 @@ def client(message):
         print(part.decode('utf-8'))
         if len(part) < buffer_length:
             reply_complete = True
-    # client.shutdown(socket.SHUT_RD)
     client.close()
 
 

@@ -18,16 +18,18 @@ def server():
     return_message = ''
     while not message_complete:
         part = conn.recv(buffer_length)
-        # print(part.decode('utf-8'))
         if len(part) < buffer_length:
             message_complete = True
             server_socket.close()
         return_message += part.decode('utf-8')
-    # print(return_message)
     conn.sendall(return_message.encode('utf-8'))
     conn.close()
-    # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    # server_socket.bind(address)
+    server_socket.close()
     server()
 
-server()
+
+if __name__ == "__main__":
+    try:
+        server()
+    except KeyboardInterrupt:
+        print('\nClosed')
