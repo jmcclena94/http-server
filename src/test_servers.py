@@ -11,12 +11,33 @@ import pytest
 #     ('£', '£')
 # ]
 
+RESPONSES = [
+    ('GET', '200 OK'),
+    ('HTTP/1.1', '500'),
+    ('NOT THERE', '404 Not Found'),
+]
+
 
 # OK_RESPONSE = [
 #     ('fart', 'HTTP/1.1 200 OK\r\n\r\n'),
 #     ('Hello World', 'HTTP/1.1 200 OK\r\n\r\n'),
 #     ('11111111', 'HTTP/1.1 200 OK\r\n\r\n'),
 # ]
+
+@pytest.mark.parametrize('request, response', RESPONSES)
+def test_parse_request(request, response):
+    """Test if parse request sends the right errors."""
+    from server import parse_request
+    assert parse_request(request) == response
+
+
+# def test_parse_request():
+#     """Test if parse request sends the right errors."""
+#     from server import parse_request
+#     with pytest.raises(NotImplementedError) as request
+    
+#     assert parse_request(request) == response
+
 
 
 def test_response_ok():

@@ -23,9 +23,14 @@ def server():
             server_socket.close()
         return_message += part.decode('utf-8')
     print(return_message)
-    ok_200 = response_ok()
+    try:
+        parse_request(return_message)
+        reply = response_ok()
+    except NotImplementedError:
+        reply = response_error()
+    # ok_200 = response_ok()
     # conn.sendall(return_message.encode('utf-8'))
-    conn.sendall(ok_200.encode('utf-8'))
+    conn.sendall(reply.encode('utf-8'))
     conn.close()
     server_socket.close()
     server()
@@ -41,6 +46,22 @@ def response_error():
     """Return a 500 Error response."""
     no_500 = 'HTTP/1.1 500 Internal Server Error.'
     return no_500
+
+
+def parse_request(request):
+    """Parse request and return reponse or error."""
+    parsed = request.split()
+    print(parsed)
+    if len(parsed) != 5:
+        raise NotImplementedError
+    elif parsed[0] != 'GET':
+        raise NotImplementedError
+    elif parsed[2] != 'HTTP/1.1':
+        raise NotImplementedError
+    elif parsed[3] != 'Host:':
+        raise NotImplementedError
+    else:
+        return parsed[1]
 
 
 if __name__ == "__main__":
