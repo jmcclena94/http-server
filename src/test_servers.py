@@ -13,13 +13,6 @@ OK_RESPONSE = [
 ]
 
 
-# @pytest.mark.parametrize('request, response', GOOD)
-# def test_parse_request_success(request, response):
-#     """Test if parse request sends the right errors."""
-#     from server import parse_request
-#     assert parse_request(request) == response
-
-
 def test_parse_request_success():
     """Test if parse request sends the right errors."""
     from server import parse_request
