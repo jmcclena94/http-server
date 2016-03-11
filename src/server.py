@@ -81,7 +81,16 @@ def resolve_uri(uri):
             open_file = io.open(path, 'rb')
             body = open_file.read()
             open_file.close()
-            content_type = b'text/plain'
+            if file_extension == '.txt':
+                content_type = b'text/plain'
+            elif file_extension == '.html':
+                content_type = b'text/html'
+            elif file_extension == '.jpg':
+                content_type = b'image/jpg'
+            elif file_extension == '.png':
+                content_type = b'image/png'
+            elif file_extension == '.py':
+                content_type = b'text/x-script.python'
             return (body, content_type)
         except FileNotFoundError:
             raise FileNotFoundError
