@@ -26,13 +26,17 @@ def server():
         return_message += part.decode('utf-8')
     print(return_message)
     try:
-        parse_request(return_message)
-        reply = response_ok()
+        uri = parse_request(return_message)
+        content = resolve_uri(uri)
+        reply_ok = response_ok()
+        content_type = b'Content Type: ' + content[1] + b'\r\n\r\n'
+        reply = reply_ok + content_type + content[0]
     except NotImplementedError:
         reply = response_error()
     # ok_200 = response_ok()
     # conn.sendall(return_message.encode('utf-8'))
-    conn.sendall(reply.encode('utf-8'))
+    # conn.sendall(reply.encode('utf-8'))
+    conn.sendall(reply)
     conn.close()
     server_socket.close()
     server()
@@ -40,13 +44,13 @@ def server():
 
 def response_ok():
     """Return a 200 OK response."""
-    ok_200 = 'HTTP/1.1 200 OK\r\n\r\n'
+    ok_200 = b'HTTP/1.1 200 OK\r\n'
     return ok_200
 
 
 def response_error():
     """Return a 500 Error response."""
-    no_500 = 'HTTP/1.1 500 Internal Server Error.'
+    no_500 = b'HTTP/1.1 500 Internal Server Error.'
     return no_500
 
 
@@ -54,7 +58,7 @@ def parse_request(request):
     """Parse request and return reponse or error."""
     parsed = request.split()
     print(parsed)
-    if len(parsed) != 5:
+    if len(parsed) < 5:
         raise NotImplementedError
     elif parsed[0] != 'GET':
         raise NotImplementedError
@@ -67,7 +71,7 @@ def parse_request(request):
 
 
 def resolve_uri(uri):
-    root_dir = '../webroot/'
+    root_dir = '../webroot'
     filename, file_extension = os.path.splitext(uri)
     if file_extension is not '':
         path = root_dir + filename + file_extension

@@ -30,13 +30,13 @@ def test_parse_request():
 def test_response_ok():
     """Test if the response is ok."""
     from server import response_ok
-    assert response_ok() == 'HTTP/1.1 200 OK\r\n\r\n'
+    assert response_ok() == b'HTTP/1.1 200 OK\r\n'
 
 
 def test_resolve_uri_success():
     """Test if resolve_uri returns appropriate tuple"""
     from server import resolve_uri
-    assert resolve_uri('samp'
+    assert resolve_uri('/samp'
                        'le.txt') == (b'This is a very simple text file.\nJus'
                                      b't to show that we can serve it up.\nIt '
                                      b'is three lines long.\n', b'text/plain')
