@@ -33,10 +33,17 @@ def test_response_ok():
     assert response_ok() == 'HTTP/1.1 200 OK\r\n\r\n'
 
 
-def test_resolve_uri():
+def test_resolve_uri_success():
     """Test if resolve_uri returns appropriate tuple"""
     from server import resolve_uri
     assert resolve_uri('samp'
                        'le.txt') == (b'This is a very simple text file.\nJus'
                                      b't to show that we can serve it up.\nIt '
                                      b'is three lines long.\n', b'text/plain')
+
+
+def test_resolve_uri_error():
+    """Test if resolve_uri give an error with a bad file"""
+    from server import resolve_uri
+    with pytest.raises(FileNotFoundError):
+        resolve_uri('asldfkj.txt')

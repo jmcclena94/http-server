@@ -77,6 +77,7 @@ def resolve_uri(uri):
             content_type = b'text/plain'
             return (body, content_type)
         except FileNotFoundError:
+            raise FileNotFoundError
             body = b'404 File Not Found'
             return (body, b'text/html')
 
