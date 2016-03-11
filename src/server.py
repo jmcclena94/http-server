@@ -96,6 +96,13 @@ def resolve_uri(uri):
             raise FileNotFoundError
             body = b'404 File Not Found'
             return (body, b'text/html')
+    else:
+        spc = u'\r\n'
+        rel_path_list = os.listdir('../webroot/')
+        rel_path = spc.join(rel_path_list)
+        body = rel_path.encode('utf-8')
+        content_type = b'plain/text'
+        return (body, content_type)
 
 
 if __name__ == "__main__":
