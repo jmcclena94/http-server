@@ -33,7 +33,7 @@ def server():
         reply = reply_ok + content_type + content[0]
     except NotImplementedError:
         reply = response_error()
-    except FileNotFoundError:
+    except OSError:
         reply = response_error()
     # ok_200 = response_ok()
     # conn.sendall(return_message.encode('utf-8'))
@@ -92,8 +92,8 @@ def resolve_uri(uri):
             elif file_extension == '.py':
                 content_type = b'text/x-script.python'
             return (body, content_type)
-        except FileNotFoundError:
-            raise FileNotFoundError
+        except OSError:
+            raise OSError
             body = b'404 File Not Found'
             return (body, b'text/html')
     else:

@@ -45,5 +45,5 @@ def test_resolve_uri_success():
 def test_resolve_uri_error():
     """Test if resolve_uri give an error with a bad file"""
     from server import resolve_uri
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(OSError):
         resolve_uri('asldfkj.txt')
