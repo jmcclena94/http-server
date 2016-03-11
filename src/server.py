@@ -30,15 +30,15 @@ def server():
         uri = parse_request(return_message)
         content = resolve_uri(uri)
         reply_ok = response_ok()
-        content_type = b'Content Type: ' + content[1] + b'\r\n\r\n'
-        reply = reply_ok + content_type + content[0]
+        content_type = b'Content Type: ' + content[1] + b'\r\n'
+        content_length = str(len(content[0])).encode('utf-8')
+        content_length = b'Content-Length: ' + content_length + b'\r\n\r\n'
+        reply = reply_ok + content_type + content_length + content[0]
+        print(reply)
     except NotImplementedError:
         reply = response_error()
     except OSError:
         reply = response_error()
-    # ok_200 = response_ok()
-    # conn.sendall(return_message.encode('utf-8'))
-    # conn.sendall(reply.encode('utf-8'))
     conn.sendall(reply)
     conn.close()
     server_socket.close()
