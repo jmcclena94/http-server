@@ -73,6 +73,7 @@ def parse_request(request):
 
 
 def resolve_uri(uri):
+    """Parse uri for file data and content type."""
     root_dir = '../webroot'
     filename, file_extension = os.path.splitext(uri)
     if file_extension is not '':
@@ -97,11 +98,14 @@ def resolve_uri(uri):
             body = b'404 File Not Found'
             return (body, b'text/html')
     else:
-        spc = u'\r\n'
-        rel_path_list = os.listdir('../webroot/')
-        rel_path = spc.join(rel_path_list)
-        body = rel_path.encode('utf-8')
-        content_type = b'plain/text'
+        # spc = u'\r\n'
+        # rel_path_list = os.listdir('../webroot/')
+        # rel_path = spc.join(rel_path_list)
+        open_file = io.open('../webroot/index.html', 'rb')
+        body = open_file.read()
+        open_file.close()
+        # body = rel_path.encode('utf-8')
+        content_type = b'text/html'
         return (body, content_type)
 
 
