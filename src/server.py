@@ -74,10 +74,13 @@ def parse_request(request):
 
 def resolve_uri(uri):
     """Parse uri for file data and content type."""
-    root_dir = '../webroot'
+    # import pdb; pdb.set_trace()
+    # root_dir = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
+    root_dir = os.path.dirname(os.getcwd())
+    webroot_dir = os.path.join(root_dir, 'webroot')
     filename, file_extension = os.path.splitext(uri)
     if file_extension is not '':
-        path = root_dir + filename + file_extension
+        path = os.path.join(webroot_dir, uri[1:])
         try:
             open_file = io.open(path, 'rb')
             body = open_file.read()
@@ -93,15 +96,14 @@ def resolve_uri(uri):
             elif file_extension == '.py':
                 content_type = b'text/x-script.python'
             return (body, content_type)
-        except OSError:
-            raise OSError
-            body = b'404 File Not Found'
-            return (body, b'text/html')
+        except (OSError, IOError):
+            # raise OSError
+            return (b'404 File Not Found', b'text/html')
     else:
         # spc = u'\r\n'
         # rel_path_list = os.listdir('../webroot/')
         # rel_path = spc.join(rel_path_list)
-        open_file = io.open('../webroot/index.html', 'rb')
+        open_file = io.open(os.path.join(webroot_dir, 'index.html'), 'rb')
         body = open_file.read()
         open_file.close()
         # body = rel_path.encode('utf-8')

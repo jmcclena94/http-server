@@ -45,5 +45,6 @@ def test_resolve_uri_success():
 def test_resolve_uri_error():
     """Test if resolve_uri give an error with a bad file"""
     from server import resolve_uri
-    with pytest.raises(OSError):
-        resolve_uri('asldfkj.txt')
+    assert resolve_uri('not_here.txt') == (b'404 File Not Found', b'text/html')
+    # with pytest.raises(OSError):
+    #     resolve_uri('asldfkj.txt')
