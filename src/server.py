@@ -33,6 +33,8 @@ def server():
         reply = reply_ok + content_type + content[0]
     except NotImplementedError:
         reply = response_error()
+    except FileNotFoundError:
+        reply = response_error()
     # ok_200 = response_ok()
     # conn.sendall(return_message.encode('utf-8'))
     # conn.sendall(reply.encode('utf-8'))
@@ -78,6 +80,7 @@ def resolve_uri(uri):
         try:
             open_file = io.open(path, 'rb')
             body = open_file.read()
+            open_file.close()
             content_type = b'text/plain'
             return (body, content_type)
         except FileNotFoundError:
