@@ -1,5 +1,7 @@
 # coding=utf-8
 import socket
+import io
+import os
 
 
 def server():
@@ -62,6 +64,21 @@ def parse_request(request):
         raise NotImplementedError
     else:
         return parsed[1]
+
+
+def resolve_uri(uri):
+    root_dir = '../webroot/'
+    filename, file_extension = os.path.splitext(uri)
+    if file_extension is not '':
+        path = root_dir + filename + file_extension
+        try:
+            open_file = io.open(path, 'rb')
+            body = open_file.read()
+            content_type = b'text/plain'
+            return (body, content_type)
+        except FileNotFoundError:
+            body = b'404 File Not Found'
+            return (body, b'text/html')
 
 
 if __name__ == "__main__":
