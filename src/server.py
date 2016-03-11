@@ -1,7 +1,8 @@
 # coding=utf-8
-import socket
 import io
+import mimetypes
 import os
+import socket
 
 
 def server():
@@ -75,38 +76,25 @@ def parse_request(request):
 def resolve_uri(uri):
     """Parse uri for file data and content type."""
     # import pdb; pdb.set_trace()
-    # root_dir = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
     root_dir = os.path.dirname(os.getcwd())
     webroot_dir = os.path.join(root_dir, 'webroot')
     filename, file_extension = os.path.splitext(uri)
     if file_extension is not '':
-        path = os.path.join(webroot_dir, uri[1:])
+        uri_strip = uri.lstrip('/')
+        path = os.path.join(webroot_dir, uri_strip)
         try:
             open_file = io.open(path, 'rb')
             body = open_file.read()
             open_file.close()
-            if file_extension == '.txt':
-                content_type = b'text/plain'
-            elif file_extension == '.html':
-                content_type = b'text/html'
-            elif file_extension == '.jpg':
-                content_type = b'image/jpg'
-            elif file_extension == '.png':
-                content_type = b'image/png'
-            elif file_extension == '.py':
-                content_type = b'text/x-script.python'
-            return (body, content_type)
+            content_type = mimetypes.types_map[file_extension]
+            return (body, content_type.encode('utf-8'))
         except (OSError, IOError):
             # raise OSError
             return (b'404 File Not Found', b'text/html')
     else:
-        # spc = u'\r\n'
-        # rel_path_list = os.listdir('../webroot/')
-        # rel_path = spc.join(rel_path_list)
         open_file = io.open(os.path.join(webroot_dir, 'index.html'), 'rb')
         body = open_file.read()
         open_file.close()
-        # body = rel_path.encode('utf-8')
         content_type = b'text/html'
         return (body, content_type)
 
