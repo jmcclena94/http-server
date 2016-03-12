@@ -4,30 +4,14 @@ from server import response_ok, response_error, parse_request, resolve_uri
 
 def echo(socket, address):
     """Run Server."""
-    # server_socket = socket.socket(socket.AF_INET,
-    #                               socket.SOCK_STREAM,
-    #                               socket.IPPROTO_TCP)
-    # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    # address = ('127.0.0.1', 5000)
-    # server_socket.bind(address)
-    # socket.listen(1)
-    # conn, addr = socket.accept()
 
     buffer_length = 8
-    # while True:
-    #     while message_complete
-    #     part = socket.recv(buffer_length)
-    #     if len(part) < buffer_length:
-    #         message_complete = True
-    #     return_message += part.decode('utf-8')
     message_complete = False
     return_message = ''
     while not message_complete:
-        # part = conn.recv(buffer_length)
         part = socket.recv(buffer_length)
         if len(part) < buffer_length:
             message_complete = True
-            # socket.close()
         return_message += part.decode('utf-8')
     print('Return Message: ' + return_message)
     try:
@@ -45,8 +29,6 @@ def echo(socket, address):
         reply = response_error()
     socket.sendall(reply)
     socket.close()
-    # server_socket.close()
-    # server()
 
 
 if __name__ == '__main__':
